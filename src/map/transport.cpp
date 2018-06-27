@@ -22,7 +22,7 @@
 */
 
 
-#include "stdafx.h"
+
 #include <iostream>
 #include <conio.h>
 #include "transport.h"
