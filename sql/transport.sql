@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `transport` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- Dumping data for table dspdb.transport: 17 rows
+-- Dumping data for table dspdb.transport: 19 rows
 /*!40000 ALTER TABLE `transport` DISABLE KEYS */;
 INSERT INTO `transport` (`id`, `name`, `transport`, `door`, `dock_x`, `dock_y`, `dock_z`, `dock_rot`, `boundary`, `anim_arrive`, `anim_depart`, `time_offset`, `time_interval`, `time_anim_arrive`, `time_waiting`, `time_anim_depart`, `zone`) VALUES
 	(1, 'Kazham-Jeuno_Airship', 17801320, 17801319, -4.000, -3.497, 32.125, 128, 512, 18, 19, 90, 360, 20, 50, 20, 226),
@@ -52,7 +52,10 @@ INSERT INTO `transport` (`id`, `name`, `transport`, `door`, `dock_x`, `dock_y`, 
 	(14, 'Nashmau-Whitegate_Boat', 16994327, 16994326, 3.240, 3.389, -114.221, 0, 571, 22, 23, 282, 480, 18, 180, 16, 59),
 	(15, 'Manaclip_Bibiki-Tours', 16793913, 16793914, 491.500, 0.000, 687.400, 128, 0, 18, 19, 710, 720, 20, 40, 20, 3),
 	(16, 'Manaclip_Bibiki-Purgonorgo', 16793913, 16793914, 491.500, 0.000, 687.400, 128, 0, 18, 19, 270, 720, 20, 40, 20, 3),
-	(17, 'Manaclip_Purgonorgo-Bibiki', 16793913, 16793915, -392.000, 0.000, -364.000, 128, 0, 20, 21, 500, 720, 20, 40, 20, 3);
+	(17, 'Manaclip_Purgonorgo-Bibiki', 16793913, 16793915, -392.000, 0.000, -364.000, 128, 0, 20, 21, 500, 720, 20, 40, 20, 3),
+	(18, 'Mhaura-Selbina_Boat_Pirates', 17797182, 17797181, -0.516, 0.000, -8.409, 0, 493, 18, 19, 372, 480, 18, 90, 17, 227),
+	(19, 'Selbina-Mhaura_Boat_Pirates', 17793088, 17793087, 9.294, 0.000, -69.775, 0, 485, 18, 19, 372, 480, 18, 90, 17, 228);
+
 /*!40000 ALTER TABLE `transport` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
