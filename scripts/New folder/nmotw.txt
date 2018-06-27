@@ -1,0 +1,78 @@
+Week 0 - Carnero - South Gustaberg:
+Week 1 - Ghillie Dhu - Konschtat Highlands:
+Week 2 - Gloomanita - North Gustaberg [S]:
+Week 3 - Lamina - Rolanberry Fields (S):
+Week 4 - Tom Tit Tat - West Sarutabaruta:
+Week 5 - Trickster Kinetix - Qufim Island:
+Week 6 - Spook - King Ranperres Tomb:
+Week 7 - Stray Mary - Konschtat Highlands:
+Week 8 - Tottering Toby - Batallia Downs:
+Week 9 - Black Triple Stars - Rolanberry Fields:
+Week 10 - Mimas - Upper Delkfutt's Tower:
+Week 11 - Serra - Bibiki Bay:
+Week 12 - Mischievous Micholas - Yuhtunga Jungle:
+Week 13 - Maltha - Inner Horutoto Ruins:
+Week 14 - Fraelissa - Jugner Forest:
+Week 15 - Drooling Daisy - Rolanberry Fields:
+Week 16 - Intulo - Bibiki Bay:
+Week 17 - Ghillie Dhu - Konschtat Highlands:
+Week 18 - Jolly Green - Pashhow Marshlands:
+Week 19 - Duke Decapod - East Sarutabaruta:
+Week 20 - Amanita - West Ronfaure:
+Week 21 - Leaping Lizzy - South Gustaberg:
+	
+Week 22 - X - X:
+
+	local nmweekNum = player:getVar("NMWEEK");
+	local nmWeekKillCheck = player:getVar("NMWeekKill");
+	
+	local thisWeek = 22;
+	if (nmWeekKillCheck ~= thisWeek) then
+		player:PrintToPlayer(string.format("Congratulations, you found the NM of the Week, please return to the quest NPC for your reward."));
+		player:setVar("NMWeekKill",thisWeek);
+		player:setVar("NMWeek",nmweekNum+1);
+	else
+		player:PrintToPlayer(string.format("I'm sorry, You've already killed this NM this week."));
+	end
+		
+Week 23 - X - X:
+
+	local nmweekNum = player:getVar("NMWEEK");
+	local nmWeekKillCheck = player:getVar("NMWeekKill");
+	
+	local thisWeek = 23;
+	if (nmWeekKillCheck ~= thisWeek) then
+		player:PrintToPlayer(string.format("Congratulations, you found the NM of the Week, please return to the quest NPC for your reward."));
+		player:setVar("NMWeekKill",thisWeek);
+		player:setVar("NMWeek",nmweekNum+1);
+	else
+		player:PrintToPlayer(string.format("I'm sorry, You've already killed this NM this week."));
+	end
+
+Week 24 - X - X:
+
+	local nmweekNum = player:getVar("NMWEEK");
+	local nmWeekKillCheck = player:getVar("NMWeekKill");
+	
+	local thisWeek = 24;
+	if (nmWeekKillCheck ~= thisWeek) then
+		player:PrintToPlayer(string.format("Congratulations, you found the NM of the Week, please return to the quest NPC for your reward."));
+		player:setVar("NMWeekKill",thisWeek);
+		player:setVar("NMWeek",nmweekNum+1);
+	else
+		player:PrintToPlayer(string.format("I'm sorry, You've already killed this NM this week."));
+	end
+	
+Week 25 - X - X:
+
+	local nmweekNum = player:getVar("NMWEEK");
+	local nmWeekKillCheck = player:getVar("NMWeekKill");
+	
+	local thisWeek = 25;
+	if (nmWeekKillCheck ~= thisWeek) then
+		player:PrintToPlayer(string.format("Congratulations, you found the NM of the Week, please return to the quest NPC for your reward."));
+		player:setVar("NMWeekKill",thisWeek);
+		player:setVar("NMWeek",nmweekNum+1);
+	else
+		player:PrintToPlayer(string.format("I'm sorry, You've already killed this NM this week."));
+	end

@@ -1,0 +1,61 @@
+-----------------------------------------
+-- Spell: Addle
+-- Increases the casting time of the target
+-- Exact formula is unknown.
+--
+-- Raw Value is said to be 30%
+-- It is said to increase to 50% w/ Saboteur
+-----------------------------------------
+
+require("scripts/globals/status");
+require("scripts/globals/magic");
+
+-----------------------------------------
+-- OnSpellCast
+-----------------------------------------
+
+function onMagicCastingCheck(caster,target,spell)
+    return 0;
+end;
+
+function onSpellCast(caster,target,spell)
+    local dMND = (caster:getStat(MOD_MND) - target:getStat(MOD_MND));
+
+    -- Power: Cast Time Modifier
+    local power = 30;
+
+    if (caster:hasStatusEffect(dsp.effects.SABOTEUR)) then
+        power = 50;
+    end
+
+    -- Sub Power: Magic Accuracy Modifier
+    local targetMagicAccuracy = target:getMod(MOD_MACC);
+    local subPower = math.floor( targetMagicAccuracy * (power / 100) );
+
+    --Duration, including resistance.
+    local duration = 180;
+    local params = {};
+    params.diff = nil;
+    params.attribute = MOD_MND;
+    params.skillType = 35;
+    params.bonus = 0;
+    params.effect = dsp.effects.ADDLE;
+    duration = duration * applyResistanceEffect(caster, target, spell, params);
+
+    if (duration >= 60) then -- Do it!
+        if (caster:hasStatusEffect(dsp.effects.SABOTEUR)) then
+            duration = duration * 2;
+            caster:delStatusEffect(dsp.effects.SABOTEUR);
+        end
+
+        if (target:addStatusEffect(dsp.effects.ADDLE, power, 0, duration, 0, subPower)) then
+            spell:setMsg(236);
+        else
+            spell:setMsg(75);
+        end
+    else
+        spell:setMsg(85);
+    end
+
+    return dsp.effects.ADDLE;
+end;

@@ -1,0 +1,74 @@
+-----------------------------------
+--
+-- Zone: Uleguerand_Range (5)
+--
+-----------------------------------
+package.loaded["scripts/zones/Uleguerand_Range/TextIDs"] = nil;
+-----------------------------------
+require("scripts/zones/Uleguerand_Range/TextIDs");
+require("scripts/zones/Uleguerand_Range/MobIDs");
+require("scripts/globals/conquest");
+require("scripts/globals/missions");
+require("scripts/globals/weather");
+require("scripts/globals/status");
+require("scripts/globals/zone");
+-----------------------------------
+
+function onInitialize(zone)
+    UpdateNMSpawnPoint(JORMUNGAND);
+end;
+
+function onConquestUpdate(zone, updatetype)
+    local players = zone:getPlayers();
+
+    for name, player in pairs(players) do
+        conquestUpdate(zone, player, updatetype, CONQUEST_BASE);
+    end
+end;
+
+function onZoneIn(player,prevZone)
+    local cs = -1;
+    if (player:getXPos() == 0 and player:getYPos() == 0 and player:getZPos() == 0) then
+        player:setPos(363.025,16,-60,12);
+    end
+    if (player:getCurrentMission(COP) == DAWN and player:getVar("COP_louverance_story")== 1 ) then
+        cs=17;
+    end
+    return cs;
+end;
+
+function onRegionEnter(player,region)
+end;
+
+function onEventUpdate(player,csid,option)
+end;
+
+function onEventFinish(player,csid,option)
+    if (csid == 17) then
+        player:setVar("COP_louverance_story",2);
+    end
+end;
+
+function onZoneWeatherChange(weather)
+    local waterfall = GetNPCByID(ULEGUERAND_WATERFALL);
+    if (weather == WEATHER_SNOW or weather == WEATHER_BLIZZARDS) then
+        if (waterfall:getAnimation() ~= ANIMATION_CLOSE_DOOR) then
+            waterfall:setAnimation(ANIMATION_CLOSE_DOOR);
+        end
+    else
+        if (waterfall:getAnimation() ~= ANIMATION_OPEN_DOOR) then
+            waterfall:setAnimation(ANIMATION_OPEN_DOOR);
+        end
+    end
+end;
+
+function onGameHour(zone) -- Custom Era no crash timer
+    local VanadielHour = VanadielHour();
+	local JORMUNGAND = GetServerVariable("[POP]JORMUNGAND");
+
+    if (VanadielHour % 1 == 0) then
+		if (JORMUNGAND <= os.time() and GetMobAction(16797969) == 0) then
+			SpawnMob(16797969);
+		end
+    end
+end;

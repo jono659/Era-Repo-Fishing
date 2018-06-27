@@ -1,0 +1,23 @@
+-----------------------------------------
+-- ID: 15793
+-- Item: Anniversary Ring
+-- Experience point bonus
+-----------------------------------------
+-- Bonus: +100%
+-- Duration: 720 min
+-- Max bonus: 10000 exp
+-----------------------------------------
+require("scripts/globals/status");
+-----------------------------------------
+
+function onItemCheck(target)
+    local result = 0;
+    if (target:hasStatusEffect(dsp.effects.DEDICATION) == true) then
+        result = 56;
+    end
+    return result;
+end;
+
+function onItemUse(target)
+    target:addStatusEffect(dsp.effects.DEDICATION,100,0,43200,0,10000);
+end;
