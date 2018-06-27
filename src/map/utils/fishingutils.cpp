@@ -288,7 +288,6 @@ return MessageOffset[ZoneID];
     int32 fishingSkillUp(CCharEntity* PChar, uint8 special) {
         DSP_DEBUG_BREAK_IF(PChar->UContainer->GetType() != UCONTAINER_FISHING);
         DSP_DEBUG_BREAK_IF(PChar->UContainer->GetItem(0) == nullptr);
-        printf("Special %u\n", special);
 
 		if (special < 20)
 		{
@@ -674,7 +673,6 @@ return MessageOffset[ZoneID];
                         int32 charSkill = PChar->RealSkills.skill[SKILL_FISHING];
                         charSkill = charSkill + fishingSkillBonus;
                         int32 FishID = PFish->getID();
-                        printf("Fish Bonus %u\n", fishingSkillBonus);
                         CItemWeapon* WeaponItem = nullptr;
                         WeaponItem = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
                         uint16 RodID = WeaponItem->getID();
@@ -683,36 +681,22 @@ return MessageOffset[ZoneID];
                         {
                            Legend = 1;
                         }
-                        char buf[110];
-                        sprintf(buf, "Fish level is : %d", (int)fishMaxSkill);
-                        PChar->pushPacket(new CChatMessagePacket(PChar, MESSAGE_SYSTEM_1, ("%s", buf)));
 
                         skilldiff = fishMaxSkill - (charSkill / 10);
                         if (skilldiff < 0)
                         {
                             skilldiff = 0;
                         }
-                        //printf("Fish Max %u\n", fishMaxSkill);
-                        //printf("Charskill %u\n", charSkill /10);
-                        //printf("Skilldiff %u\n", skilldiff);
                         stamina = ((stamina * 150) / 100);
-                        //printf("Skill Bonus %u\n", fishingSkillBonus / 10);
-                        //printf("Stamina after mod 1 %u\n", stamina);
-                        // Main Regen mod for distance to fish level
                         regen = (regen + (skilldiff / 8));
-                        //printf("regen after mod %u\n", regen);
                         // Main Stamina mod for level
                         stamina = (stamina + ((charSkill / 10) * 4)); // was 3
-                        //printf("Stamina after second mod 1 %u\n", stamina);
                         // Secondary Stamina mod for distance to fish level
                         stamina = (stamina + (skilldiff * 50));
-                        //printf("Stamina after third mod 1 %u\n", stamina);
                         // Damage penalty for Skilldiff
-                        damage = (damage - (skilldiff *4));//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   MAY NEED TUNING
-                        //printf("Damage 1 %u\n", damage);
+                        damage = (damage - (skilldiff *4));
                         // Damage mod for CharSkill
                         damage = damage + (charSkill / 200);
-                        //printf("Damage 2 %u\n", damage);
                         // Legendary or Level 100 mod goes here
                         
 
