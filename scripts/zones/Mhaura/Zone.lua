@@ -19,13 +19,10 @@ function onInitialize(zone)
 end;
 
 function onZoneIn(player,prevZone)
-    if (player:getVar("MentorFlag") == 1) then
-        player:speed(150);
-    end
     local cs = -1;
     local currentday = tonumber(os.date("%j"));
     if (player:getXPos() == 0 and player:getYPos() == 0 and player:getZPos() == 0) then
-        if (prevZone == 221 or prevZone == 47) then
+        if (prevZone == 221 or prevZone == 47 or prevZone == 228) then
             cs = 202;
             player:setPos(14.960,-3.430,18.423,192);
         else
@@ -47,9 +44,9 @@ end;
 
 function onTransportEvent(player,transport)
     if (transport == 47 or transport == 46) then
-        if (not player:hasKeyItem(BOARDING_PERMIT) or ENABLE_TOAU == 0) then
+        if (not player:hasKeyItem(dsp.ki.BOARDING_PERMIT) or ENABLE_TOAU == 0) then
             player:setPos(8.200,-1.363,3.445,192);
-            player:messageSpecial(DO_NOT_POSSESS, BOARDING_PERMIT);
+            player:messageSpecial(DO_NOT_POSSESS, dsp.ki.BOARDING_PERMIT);
         else
             player:startEvent(200);
         end
@@ -65,7 +62,14 @@ function onEventFinish(player,csid,option)
     if (csid == 200) then
         local DepartureTime = VanadielHour();
         if (DepartureTime % 8 == 0) then
-            player:setPos(0,0,0,0,220); -- Boat to Selbina
+			pirate1 = GetServerVariable("boat1");
+			printf("Pirate \n",boat1);
+			if (pirate1 >= 820) then
+				pzone = 227; -- Pirates
+			else
+					pzone=220; -- Selbina
+			end	
+            player:setPos(0,0,0,0,pzone); -- Boat to Selbina or Pirates
         elseif (DepartureTime % 8 == 4) then
             player:setPos(0,0,0,0,46); -- Boat to Aht Urhgan
         else

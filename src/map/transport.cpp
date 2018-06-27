@@ -21,6 +21,10 @@
 ===========================================================================
 */
 
+
+
+#include <iostream>
+#include <conio.h>
 #include "transport.h"
 
 #include "entities/charentity.h"
@@ -31,7 +35,6 @@
 
 #include "packets/event.h"
 #include "packets/entity_update.h"
-
 /************************************************************************
 *                                                                       *
 *  Создание глобальной ссылки на объект класса                          *
@@ -90,18 +93,26 @@ void CTransportHandler::InitializeTransport()
             PTransport->Dock.p.rotation = (uint8) Sql_GetIntData(SqlHandle,6);
             PTransport->Dock.boundary   = (uint16)Sql_GetIntData(SqlHandle,7);
             PTransport->Dock.prevzone   = (uint8) Sql_GetIntData(SqlHandle,8);
-
-            PTransport->PDoorNPC      = zoneutils::GetEntity(Sql_GetUIntData(SqlHandle,2), TYPE_NPC);
+            //printf("Zone %u\n", ((Sql_GetUIntData(SqlHandle, 1) >> 12) & 0x0FFF));
+            //printf("Transport %f\n", (Sql_GetFloatData(SqlHandle, 1)));
+			//printf("X Co-ord %f\n",(Sql_GetFloatData(SqlHandle, 3)));
+			//printf("Y Co-ord %f\n",(Sql_GetFloatData(SqlHandle, 4)));
+            //printf("Z Co-ord %f\n",(Sql_GetFloatData(SqlHandle, 5)));
+            //printf("Boundary %u\n", (Sql_GetIntData(SqlHandle, 7)));
+            //printf("Route Zone %u\n", (Sql_GetIntData(SqlHandle, 8)));
+            //printf("Rotation %u\n", (Sql_GetIntData(SqlHandle, 6)));
+            PTransport->PDoorNPC = zoneutils::GetEntity(Sql_GetUIntData(SqlHandle,2), TYPE_NPC);
             PTransport->PTransportNPC = zoneutils::GetEntity(Sql_GetUIntData(SqlHandle,1), TYPE_SHIP);
-
             PTransport->AnimationArrive = (uint8)Sql_GetIntData(SqlHandle, 9);
             PTransport->AnimationDepart = (uint8)Sql_GetIntData(SqlHandle,10);
-
+            //std::cout << "PDoor " << PTransport->PDoorNPC << "\n";
+            //std::cout << "PTransport " << PTransport->Dock.p.y << "\n\n";
             PTransport->TimeOffset   = (uint16)Sql_GetIntData(SqlHandle,11);
             PTransport->TimeInterval = (uint16)Sql_GetIntData(SqlHandle,12);
             PTransport->TimeWaiting  = (uint16)Sql_GetIntData(SqlHandle,13);
             PTransport->TimeAnimationArrive = (uint16)Sql_GetIntData(SqlHandle,14);
             PTransport->TimeAnimationDepart = (uint16)Sql_GetIntData(SqlHandle,15);
+
 
             if (PTransport->PDoorNPC == nullptr ||
                 PTransport->PTransportNPC == nullptr)
@@ -141,11 +152,10 @@ void CTransportHandler::InitializeTransport()
 
             TransportZone_t TransportZone;
 
-            TransportZone.zone = (uint8)Sql_GetIntData(SqlHandle, 0);
+            TransportZone.zone = (uint8)Sql_GetIntData(SqlHandle, 0); 
             TransportZone.TimeOffset = (uint16)Sql_GetIntData(SqlHandle, 1);
             TransportZone.TimeInterval = (uint16)Sql_GetIntData(SqlHandle, 2);
             TransportZone.TimeAnimationArrive = (uint16)Sql_GetIntData(SqlHandle, 3);
-
             TransportZoneList.push_back(TransportZone);
         }
     }
@@ -164,7 +174,7 @@ void CTransportHandler::TransportTimer()
     // в портовых зонах необходимо написать макросы на случай, если персонаж вышел из игры в корабле. 
     // при входе в игру он должен оказаться на пристани
 
-    for(uint32 i = 0; i < TransportList.size(); ++i)
+    for(uint32 i = 0; i < TransportList.size(); ++i) //Looping through the transports
     {
         Transport_t* PTransport = TransportList.at(i);
 
@@ -173,12 +183,12 @@ void CTransportHandler::TransportTimer()
         // корабль появляется на горизонте
         if (ShipTimerOffset == 0)
         {
+            //printf("Docking \n");
             PTransport->PTransportNPC->status = STATUS_NORMAL;
             PTransport->PTransportNPC->animation = PTransport->AnimationArrive;
             PTransport->PTransportNPC->loc = PTransport->Dock;
-
+            //std::cout << "PTransport " << PTransport->PDoorNPC << "\n\n";
             ref<uint32>(&PTransport->PTransportNPC->name[0],4) = CVanaTime::getInstance()->getVanaTime();
-
 			PTransport->Dock.zone->PushPacket(nullptr, CHAR_INZONE, new CEntityUpdatePacket(PTransport->PTransportNPC, ENTITY_SPAWN, UPDATE_ALL_MOB));
         }
         // персонажи видят корабль, иначе ждем следующего прибытия
@@ -187,18 +197,36 @@ void CTransportHandler::TransportTimer()
             // корабль причалил, открываем двери пассажирам
             if (ShipTimerOffset == PTransport->TimeAnimationArrive)
             {
+                
                 PTransport->PDoorNPC->animation = ANIMATION_OPEN_DOOR;
 				PTransport->Dock.zone->PushPacket(PTransport->PDoorNPC, CHAR_INRANGE, new CEntityUpdatePacket(PTransport->PDoorNPC, ENTITY_UPDATE, UPDATE_COMBAT));
+                //std::cout << "Entity Spawn " << ENTITY_SPAWN << "\n";
             }
             //корабль отчаливает
             else if (ShipTimerOffset == PTransport->TimeAnimationArrive + PTransport->TimeWaiting)
             {
                 PTransport->PDoorNPC->animation = ANIMATION_CLOSE_DOOR;
+                //printf("Departing \n");
                 PTransport->PTransportNPC->animation = PTransport->AnimationDepart;
                 PTransport->PTransportNPC->loc.boundary = PTransport->Dock.boundary;
 
                 ref<uint32>(&PTransport->PTransportNPC->name[0],4) = CVanaTime::getInstance()->getVanaTime();
 
+                // set pirate spawn for selb and Mhaur Boats and Monk/Horror
+                uint32 setp = PTransport->PTransportNPC->animation = PTransport->AnimationDepart;
+                int ptd= PTransport->Dock.prevzone; // Looking for boat to Selbina
+                if (ptd == 220) 
+                {
+                int n = 1;
+                     while (n < 5)
+                        {
+                        long boat = dsprand::GetRandomNumber(1000);
+                            auto boatname = "boat" + std::to_string(n);
+                        const char* fmtQuery = "UPDATE server_variables SET value = %u WHERE name = '%s';"; //update the 4 vars for pirates and boat Mobs
+                        int32 ret = Sql_Query(SqlHandle, fmtQuery, boat, boatname);
+                         ++n;
+                        }
+                }
                 PTransport->Dock.zone->TransportDepart(PTransport->PTransportNPC->loc.boundary, PTransport->PTransportNPC->loc.prevzone);
 				PTransport->Dock.zone->PushPacket(PTransport->PDoorNPC, CHAR_INRANGE, new CEntityUpdatePacket(PTransport->PDoorNPC, ENTITY_UPDATE, UPDATE_COMBAT));
 				PTransport->Dock.zone->PushPacket(nullptr, CHAR_INZONE, new CEntityUpdatePacket(PTransport->PTransportNPC, ENTITY_UPDATE, UPDATE_COMBAT));
@@ -206,8 +234,8 @@ void CTransportHandler::TransportTimer()
             //корабль исчезает
             else if (ShipTimerOffset == PTransport->TimeAnimationArrive + PTransport->TimeWaiting + PTransport->TimeAnimationDepart)
             {
-                PTransport->PTransportNPC->status = STATUS_DISAPPEAR;
-                PTransport->Dock.zone->PushPacket(nullptr, CHAR_INZONE, new CEntityUpdatePacket(PTransport->PTransportNPC, ENTITY_DESPAWN,UPDATE_NONE));
+               PTransport->PTransportNPC->status = STATUS_DISAPPEAR;
+               PTransport->Dock.zone->PushPacket(nullptr, CHAR_INZONE, new CEntityUpdatePacket(PTransport->PTransportNPC, ENTITY_DESPAWN,UPDATE_NONE));
             }
         }
     }
