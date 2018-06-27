@@ -87,7 +87,8 @@ namespace fishingutils
     ************************************************************************/
     uint16 GetMessageOffset(uint16 ZoneID)
     {
-        return MessageOffset[ZoneID];
+
+return MessageOffset[ZoneID];
     }
 
     /* Fishing Message Offsets
@@ -287,6 +288,7 @@ namespace fishingutils
     int32 fishingSkillUp(CCharEntity* PChar, uint8 special) {
         DSP_DEBUG_BREAK_IF(PChar->UContainer->GetType() != UCONTAINER_FISHING);
         DSP_DEBUG_BREAK_IF(PChar->UContainer->GetItem(0) == nullptr);
+        printf("Special %u\n", special);
 
 		if (special < 20)
 		{
@@ -434,7 +436,7 @@ namespace fishingutils
             PChar->pushPacket(new CReleasePacket(PChar, RELEASE_FISHING));
             return;
         }
-
+        
         PChar->animation = ANIMATION_FISHING_START;
         PChar->updatemask |= UPDATE_HP;
 
@@ -476,6 +478,140 @@ namespace fishingutils
                     break;
                 }
 
+                CItemArmor* armorItems = nullptr;
+        uint8 fishingSkillBonus = 0;
+        uint8 fishedItemReduction = 0;
+        uint8 fishedMonsterReduction = 0;
+        uint8 fishingSkillUpRateIncrease = 0;
+        uint8 fishingIncreaseLargeCatch = 0;
+        uint8 fishRegenReduction = 0;
+        uint8 fishStaminaReduction = 0;
+        uint8 fishingDiscernment = 0;
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_BODY);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 13808 || armorItems->getID() == 13809) {
+                // Fisherman's Tunic and Angler's Tunic. //
+                fishingSkillBonus += 10;
+            }
+            else if (armorItems->getID() == 14400) {
+                // Fisherman's Apron. //
+                fishedItemReduction++;
+            }
+            else if (armorItems->getID() == 11337) {
+                // Fisherman's Smock. //
+                fishingSkillBonus += 10;
+                fishedItemReduction++;
+            }
+        }
+
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_HANDS);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 14070 || armorItems->getID() == 14071) {
+                // Fisherman's Gloves and Angler's Gloves. //
+                fishingSkillBonus += 10;
+            }
+        }
+
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_LEGS);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 14292 || armorItems->getID() == 14293) {
+                // Fisherman's Hose and Angler's Hose. //
+                fishingSkillBonus += 10;
+            }
+        }
+
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_FEET);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 14171 || armorItems->getID() == 14172) {
+                // Fisherman's Boots and Angler's Boots. //
+                fishingSkillBonus += 10;
+            }
+            else if (armorItems->getID() == 14195) {
+                // Waders. //
+                fishingSkillBonus += 20;
+            }
+        }
+
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_RING1);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 11655) {
+                // Noddy Ring. //
+                fishedMonsterReduction++;
+            }
+            else if (armorItems->getID() == 11654) {
+                // Puffin Ring. //
+                fishingIncreaseLargeCatch++;
+            }
+            else if (armorItems->getID() == 15485) {
+                // Seagull Ring. //
+                // Todo: Check for player has synth support. //
+                fishStaminaReduction++;
+            }
+            else if (armorItems->getID() == 15552 || armorItems->getID() == 15555) {
+                // Albatross Ring. //
+                // Todo: Check for player has enhancement. //
+                fishStaminaReduction++;
+            }
+            else if (armorItems->getID() == 15554) {
+                // Pelican Ring. //
+                // Todo: Check for player has enhancement. //
+                fishingSkillUpRateIncrease++;
+            }
+            else if (armorItems->getID() == 15553 || armorItems->getID() == 15556) {
+                // Penguin Ring. //
+                // Todo: Check for player has enhancement. //
+                fishRegenReduction++;
+            }
+        }
+
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_RING2);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 11655) {
+                // Noddy Ring. //
+                fishedMonsterReduction++;
+            }
+            else if (armorItems->getID() == 11654) {
+                // Puffin Ring. //
+                fishingIncreaseLargeCatch++;
+            }
+            else if (armorItems->getID() == 15485) {
+                // Seagull Ring. //
+                // Todo: Check for player has synth support. //
+                fishStaminaReduction++;
+            }
+            else if (armorItems->getID() == 15552 || armorItems->getID() == 15555) {
+                // Albatross Ring. //
+                // Todo: Check for player has enhancement. //
+                fishStaminaReduction++;
+            }
+            else if (armorItems->getID() == 15554) {
+                // Pelican Ring. //
+                // Todo: Check for player has enhancement. //
+                fishingSkillUpRateIncrease++;
+            }
+            else if (armorItems->getID() == 15553 || armorItems->getID() == 15556) {
+                // Penguin Ring. //
+                // Todo: Check for player has enhancement. //
+                fishRegenReduction++;
+            }
+        }
+
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_WAIST);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 11768) {
+                // Fisher's Rope. //
+                fishingDiscernment++;
+            }
+        }
+
+        armorItems = (CItemArmor*)PChar->getEquip(SLOT_NECK);
+        if (armorItems != nullptr) {
+            if (armorItems->getID() == 10925) {
+                // Fisher's Torque. //
+                fishingSkillBonus += 20;
+            }
+
+        }
 
                 if (checkMonsterLuck(PChar, AmmoItem->getID()))
                 {
@@ -509,7 +645,7 @@ namespace fishingutils
                     uint16 arrowDelay = 13;
                     uint16 damage = 0;
                     uint16 miss = 0;
-
+                    charSkill = charSkill + fishingSkillBonus;
                     char const* Query =
                         "SELECT "
                         "stamina,"		// 0
@@ -536,30 +672,49 @@ namespace fishingutils
                         fishMaxSkill = Sql_GetIntData(SqlHandle, 7);
                         fishSize = Sql_GetIntData(SqlHandle, 8);
                         int32 charSkill = PChar->RealSkills.skill[SKILL_FISHING];
+                        charSkill = charSkill + fishingSkillBonus;
                         int32 FishID = PFish->getID();
+                        printf("Fish Bonus %u\n", fishingSkillBonus);
+                        CItemWeapon* WeaponItem = nullptr;
+                        WeaponItem = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
+                        uint16 RodID = WeaponItem->getID();
+                        //If RodID = 17011    Ebisu Rod (17386 for Lu's) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                         if (charutils::hasKeyItem(PChar, 1977)) //Check for Serpent rumours for Lik and Gugrusaurus
                         {
                            Legend = 1;
                         }
                         char buf[110];
-//                        sprintf(buf, "Fish level is : %d", (int)fishMaxSkill);
-//                        PChar->pushPacket(new CChatMessagePacket(PChar, MESSAGE_SYSTEM_1, ("%s", buf)));
+                        sprintf(buf, "Fish level is : %d", (int)fishMaxSkill);
+                        PChar->pushPacket(new CChatMessagePacket(PChar, MESSAGE_SYSTEM_1, ("%s", buf)));
 
-                        skilldiff = (fishMaxSkill - (charSkill / 10));
+                        skilldiff = fishMaxSkill - (charSkill / 10);
                         if (skilldiff < 0)
                         {
                             skilldiff = 0;
                         }
+                        printf("Fish Max %u\n", fishMaxSkill);
+                        printf("Charskill %u\n", charSkill /10);
+                        printf("Skilldiff %u\n", skilldiff);
                         stamina = ((stamina * 150) / 100);
+                        printf("Skill Bonus %u\n", fishingSkillBonus / 10);
+                        printf("Stamina after mod 1 %u\n", stamina);
                         // Main Regen mod for distance to fish level
-                        regen = (regen + (skilldiff / 10));
+                        regen = (regen + (skilldiff / 8));
+                        printf("regen after mod %u\n", regen);
                         // Main Stamina mod for level
-                        stamina = (stamina + ((charSkill / 10) * 5)); // was 3
+                        stamina = (stamina + ((charSkill / 10) * 4)); // was 3
+                        printf("Stamina after second mod 1 %u\n", stamina);
                         // Secondary Stamina mod for distance to fish level
                         stamina = (stamina + (skilldiff * 50));
+                        printf("Stamina after third mod 1 %u\n", stamina);
+                        // Damage penalty for Skilldiff
+                        damage = (damage - (skilldiff *4));//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   MAY NEED TUNING
+                        printf("Damage 1 %u\n", damage);
                         // Damage mod for CharSkill
-                        damage = damage + (charSkill / 20);
+                        damage = damage + (charSkill / 200);
+                        printf("Damage 2 %u\n", damage);
                         // Legendary or Level 100 mod goes here
+                        
 
 						if ((FishID == 5127) || (FishID == 5129))
                         {
@@ -655,8 +810,7 @@ namespace fishingutils
                     }
                     else
                     {
-                        // Message: "You caught fish!" //
-                        DSP_DEBUG_BREAK_IF(PChar->UContainer->GetType() != UCONTAINER_FISHING);
+                         DSP_DEBUG_BREAK_IF(PChar->UContainer->GetType() != UCONTAINER_FISHING);
                         DSP_DEBUG_BREAK_IF(PChar->UContainer->GetItem(0) == nullptr);
                         CItemWeapon* WeaponItem = nullptr;
                         WeaponItem = (CItemWeapon*)PChar->getEquip(SLOT_RANGED);
@@ -695,7 +849,7 @@ namespace fishingutils
                                 PChar->animation = ANIMATION_FISHING_ROD_BREAK;
                                 PChar->updatemask |= UPDATE_HP;
                                 rodBreaks(PChar);
-                                PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + 0x12));
+                                PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + 0x11));
                                 return;
                             }
                         }
