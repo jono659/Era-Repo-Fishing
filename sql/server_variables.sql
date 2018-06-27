@@ -568,6 +568,13 @@ INSERT INTO `server_variables` (`name`, `value`) VALUES
 	('ClammingPoint_16793920_Delay', 1520867016),
 	('[SW_Apollyon]MimicTrigger', 1),
 	('[TOD]Fafnir', 1529849695);
+	('boat1', 0);
+	('boat2', 0);
+	('boat3', 0);
+	('boat4', 0);
+	('Winning_Box1', 0);
+	('Winning_Box2', 0);
+	('Winning_Box3', 0);
 /*!40000 ALTER TABLE `server_variables` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -53,6 +53,9 @@ INSERT INTO `transport` (`id`, `name`, `transport`, `door`, `dock_x`, `dock_y`, 
 	(15, 'Manaclip_Bibiki-Tours', 16793913, 16793914, 491.500, 0.000, 687.400, 128, 0, 18, 19, 710, 720, 20, 40, 20, 3),
 	(16, 'Manaclip_Bibiki-Purgonorgo', 16793913, 16793914, 491.500, 0.000, 687.400, 128, 0, 18, 19, 270, 720, 20, 40, 20, 3),
 	(17, 'Manaclip_Purgonorgo-Bibiki', 16793913, 16793915, -392.000, 0.000, -364.000, 128, 0, 20, 21, 500, 720, 20, 40, 20, 3);
+	(18, 'Mhaura-Selbina_Boat_Pirates', 17797182, 17797181, -0.516, 0.000, -8.409, 0, 493, 18, 19, 372, 480, 18, 90, 17, 227);
+	(19, 'Selbina-Mhaura_Boat_Pirates', 17793088, 17793087, 9.294, 0.000, -69.775, 0, 485, 18, 19, 372, 480, 18, 90, 17, 228);
+
 /*!40000 ALTER TABLE `transport` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
