@@ -692,27 +692,27 @@ return MessageOffset[ZoneID];
                         {
                             skilldiff = 0;
                         }
-                        printf("Fish Max %u\n", fishMaxSkill);
-                        printf("Charskill %u\n", charSkill /10);
-                        printf("Skilldiff %u\n", skilldiff);
+                        //printf("Fish Max %u\n", fishMaxSkill);
+                        //printf("Charskill %u\n", charSkill /10);
+                        //printf("Skilldiff %u\n", skilldiff);
                         stamina = ((stamina * 150) / 100);
-                        printf("Skill Bonus %u\n", fishingSkillBonus / 10);
-                        printf("Stamina after mod 1 %u\n", stamina);
+                        //printf("Skill Bonus %u\n", fishingSkillBonus / 10);
+                        //printf("Stamina after mod 1 %u\n", stamina);
                         // Main Regen mod for distance to fish level
                         regen = (regen + (skilldiff / 8));
-                        printf("regen after mod %u\n", regen);
+                        //printf("regen after mod %u\n", regen);
                         // Main Stamina mod for level
                         stamina = (stamina + ((charSkill / 10) * 4)); // was 3
-                        printf("Stamina after second mod 1 %u\n", stamina);
+                        //printf("Stamina after second mod 1 %u\n", stamina);
                         // Secondary Stamina mod for distance to fish level
                         stamina = (stamina + (skilldiff * 50));
-                        printf("Stamina after third mod 1 %u\n", stamina);
+                        //printf("Stamina after third mod 1 %u\n", stamina);
                         // Damage penalty for Skilldiff
                         damage = (damage - (skilldiff *4));//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   MAY NEED TUNING
-                        printf("Damage 1 %u\n", damage);
+                        //printf("Damage 1 %u\n", damage);
                         // Damage mod for CharSkill
                         damage = damage + (charSkill / 200);
-                        printf("Damage 2 %u\n", damage);
+                        //printf("Damage 2 %u\n", damage);
                         // Legendary or Level 100 mod goes here
                         
 
