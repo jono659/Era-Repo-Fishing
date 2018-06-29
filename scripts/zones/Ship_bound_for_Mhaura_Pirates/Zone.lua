@@ -21,7 +21,6 @@ function onZoneIn(player,prevZone)
         player:setPos(position,-2.100,3.250,64);
 		player:setPos(position,-2.100,3.250,64);
 			pirate1 = GetServerVariable("boat2");
-			printf("Pirate \n",pirate1);
 			if (pirate1 >= 920) then
 			SpawnMob(17711121); -- Silverhook
 			else 
