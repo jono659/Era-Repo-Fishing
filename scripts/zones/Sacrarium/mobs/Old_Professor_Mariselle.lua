@@ -39,17 +39,13 @@ function onMobDeath(mob, player, isKiller)
         end
     end
 
-    if (player:getCurrentMission(COP) == THE_SECRETS_OF_WORSHIP and player:getVar("PromathiaStatus") == 3 and  player:hasKeyItem(RELIQUIARIUM_KEY)==false) then
+    if (player:getCurrentMission(COP) == THE_SECRETS_OF_WORSHIP and player:getVar("PromathiaStatus") == 3 and  player:hasKeyItem(dsp.ki.RELIQUIARIUM_KEY)==false) then
         player:setVar("PromathiaStatus",4);
     end
 
   -- Set random variable for determining Old Prof. Mariselle's next spawn location
     local rand = math.random((2),(7));
     SetServerVariable("Old_Prof_Spawn_Location", rand);
-	
-	if player:getCurrentMission(COP) >= SLANDEROUS_UTTERINGS then
-        player:addItem(2306,1);
-    end
 
 end;
 
