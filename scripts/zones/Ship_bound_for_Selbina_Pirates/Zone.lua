@@ -19,7 +19,6 @@ function onZoneIn(player,prevZone)
         local position = math.random(-2,2) + 0.150;    
         player:setPos(position,-2.100,3.250,64);
 			pirate1 = GetServerVariable("boat1");
-			printf("Pirate \n",pirate1);
 			if (pirate1 >= 920) then
 			SpawnMob(17707025); -- Blackbeard
 			else 
