@@ -5,7 +5,7 @@
 -----------------------------------
 
 function onMobInitialize(mob)
-    mob:setMobMod(dsp.mobMod.HP_STANDBACK, 50);
+    mob:setMobMod(HP_STANDBACK, 50);
 end;
 
 function onMobSpawn(mob)
